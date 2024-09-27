@@ -1,0 +1,79 @@
+<div class="container">
+
+    <div class="container text-center" style="margin: 30px">
+        <h3>Sistema de Inventarios</h3>
+    </div>
+    
+
+    <table class="table table-striped table-hover align-middle">
+        <thead class="table-dark">
+          <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Descripcion del Producto</th>
+            <th scope="col">Precio</th>
+            <th scope="col">Stock</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let producto of productos">
+            <th scope="row">{{producto.idProducto}}</th>
+            <td>{{producto.descripcion}}</td>
+            <td>{{producto.precio}}</td>
+            <td>{{producto.stock}}</td>
+            <td class="text-center">
+              <div>
+                <button (click)="editarProducto(producto.idProducto)" class="btn btn-warning btn-sm me-3">Editar</button>
+                <button (click)="openByDocument(producto)" class="btn btn-warning btn-sm me-3">Editar con Modal</button>
+                <button (click)="eliminarProducto(producto.idProducto)"
+                class="btn btn-danger btn-sm">Eliminar</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+</div>
+
+<div class="modal" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Modal Heading</h4>
+        <button type="button" class="btn-close" (click)="closeModelByDocument()" aria-label="Close"></button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="nombre" class="form-label">Nombre</label>
+          <input type="text" id="nombre" class="form-control">
+        </div>
+        <div class="mb-3">
+          <label for="apellido" class="form-label">Apellido</label>
+          <input type="text" id="apellido" class="form-control">
+        </div>
+        <div class="mb-3">
+          <label for="telefono" class="form-label">Teléfono</label>
+          <input type="text" id="telefono" class="form-control">
+        </div>
+        <div class="mb-3">
+          <label for="dni" class="form-label">DNI</label>
+          <input type="text" id="dni" class="form-control">
+        </div>
+        <div class="mb-3">
+          <label for="cuit" class="form-label">CUIT</label>
+          <input type="text" id="cuit" class="form-control">
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" id="email" class="form-control">
+        </div>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer d-flex text-center justify-content-between">
+        <button type="button" class="btn btn-danger">Cerrar</button>
+        <button type="button" class="btn btn-success">Actualizar</button>
+      </div>

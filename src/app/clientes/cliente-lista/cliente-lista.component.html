@@ -1,0 +1,135 @@
+<div class="container">
+  <div class="align-items-center d-flex justify-content-between" style="margin: 30px">
+    <h3 class="text-center flex-grow-1">Clientes</h3>
+    <button class="btn btn-success btn-sm ms-auto" (click)="modalAgregar()">Agregar Cliente</button>
+  </div>
+  
+  <table class="table table-striped table-hover align-middle">
+    <thead class="table-dark">
+      <tr class="text-center">
+        <th scope="col">Id</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Apellido</th>
+        <th scope="col">Teléfono</th>
+        <th scope="col">DNI</th>
+        <th scope="col">CUIT</th>
+        <th scope="col">Email</th>
+        <th class="text-center" scope="col">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="text-center" *ngFor="let cliente of clientes">
+        <th scope="row">{{cliente.id}}</th>
+        <td>{{cliente.nombre}}</td>
+        <td>{{cliente.apellido}}</td>
+        <td>{{cliente.telefono}}</td>
+        <td>{{cliente.dni}}</td>
+        <td>{{cliente.cuit}}</td>
+        <td>{{cliente.email}}</td>
+        <td class="text-center">
+          <button class="btn btn-warning btn-sm me-3" (click)="openByDocument(cliente)">Editar</button>
+          <button class="btn btn-danger btn-sm" (click)="eliminarCliente(cliente.id)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Modal CREAR CLIENTE -->
+<div class="modal" id="modalCliente">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Crear Cliente</h4>
+        <button type="button" class="btn-close" (click)="cerrarModalAgregar()" aria-label="Close"></button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="nombre" class="form-label">Nombre</label>
+          <input type="text" id="nombre" class="form-control" [(ngModel)]="nuevoCliente.nombre">
+        </div>
+        <div class="mb-3">
+          <label for="apellido" class="form-label">Apellido</label>
+          <input type="text" id="apellido" class="form-control" [(ngModel)]="nuevoCliente.apellido">
+        </div>
+        <div class="mb-3">
+          <label for="telefono" class="form-label">Teléfono</label>
+          <input type="text" id="telefono" class="form-control" [(ngModel)]="nuevoCliente.telefono">
+        </div>
+        <div class="mb-3">
+          <label for="dni" class="form-label">DNI</label>
+          <input type="text" id="dni" class="form-control" [(ngModel)]="nuevoCliente.dni">
+        </div>
+        <div class="mb-3">
+          <label for="cuit" class="form-label">CUIT</label>
+          <input type="text" id="cuit" class="form-control" [(ngModel)]="nuevoCliente.cuit">
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" id="email" class="form-control" [(ngModel)]="nuevoCliente.email">
+        </div>
+      </div>
+      
+
+      <!-- Modal footer -->
+      <div class="modal-footer d-flex text-center justify-content-between">
+        <button type="button" class="btn btn-danger" (click)="cerrarModalAgregar()">Cerrar</button>
+        <button type="button" class="btn btn-success" (click)="guardarCliente()">Crear</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<div class="modal" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Modal Heading</h4>
+        <button type="button" class="btn-close" (click)="closeModelByDocument()" aria-label="Close"></button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="modal-body" *ngIf="clienteEditado">
+        <div class="mb-3">
+          <label for="nombre" class="form-label">Nombre</label>
+          <input type="text" id="nombre" class="form-control" [(ngModel)]="clienteEditado.nombre">
+        </div>
+        <div class="mb-3">
+          <label for="apellido" class="form-label">Apellido</label>
+          <input type="text" id="apellido" class="form-control" [(ngModel)]="clienteEditado.apellido">
+        </div>
+        <div class="mb-3">
+          <label for="telefono" class="form-label">Teléfono</label>
+          <input type="text" id="telefono" class="form-control" [(ngModel)]="clienteEditado.telefono">
+        </div>
+        <div class="mb-3">
+          <label for="dni" class="form-label">DNI</label>
+          <input type="text" id="dni" class="form-control" [(ngModel)]="clienteEditado.dni">
+        </div>
+        <div class="mb-3">
+          <label for="cuit" class="form-label">CUIT</label>
+          <input type="text" id="cuit" class="form-control" [(ngModel)]="clienteEditado.cuit">
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" id="email" class="form-control" [(ngModel)]="clienteEditado.email">
+        </div>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer d-flex text-center justify-content-between">
+        <button type="button" class="btn btn-danger" (click)="closeModelByDocument()">Cerrar</button>
+        <button type="button" class="btn btn-success" (click)="actualizarCliente()">Actualizar</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
