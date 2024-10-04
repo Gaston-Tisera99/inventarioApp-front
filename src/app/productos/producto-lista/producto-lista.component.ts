@@ -4,13 +4,14 @@ import { ProductoService } from '../../servicios/producto.service';
 import { CommonModule } from '@angular/common';
 import {Router} from '@angular/router';
 import Swal from 'sweetalert2';
+import { FormsModule } from '@angular/forms';
 
 
 @Component({
   selector: 'app-producto-lista',
   templateUrl: './producto-lista.component.html',
   standalone: true,  // Asegúrate de que esta opción esté habilitada
-  imports: [CommonModule],  // Importa CommonModule aquí
+  imports: [CommonModule, FormsModule],  // Importa CommonModule aquí
 })
 export class ProductoListaComponent {
   productos: Producto[];
@@ -32,10 +33,6 @@ export class ProductoListaComponent {
     );
   }
 
-  editarProducto(id: number){
-    this.enrutador.navigate(['editar-producto', id]);
-  }
-
   openByDocument(producto: Producto) {
     if (producto && producto.idProducto) {
       this.selectedProducto = producto;
@@ -47,6 +44,35 @@ export class ProductoListaComponent {
       }
     } else {
       console.warn('Producto no válido para abrir el modal');
+    }
+  }
+
+  actualizarProducto() {
+    if (this.selectedProducto && this.productoEditado) {
+      this.productoServicio.editarProducto(this.selectedProducto.idProducto, this.productoEditado).subscribe({
+        next: (datos) => {
+          Swal.fire({
+            title: '¡Éxito!',
+            text: 'Producto actualizado con éxito.',
+            icon: 'success',
+            confirmButtonText: 'OK',
+          }).then(() => {
+            this.obtenerProductos();  // Actualiza la lista de clientes después de la edición
+            this.closeModelByDocument();  // Cierra el modal
+          });
+        },
+        error: (errores) => {
+          Swal.fire({
+            title: '¡Error!',
+            text: 'Hubo un problema al actualizar el producto.',
+            icon: 'error',
+            confirmButtonText: 'Intentar de nuevo',
+          });
+          console.error('Error al actualizar el producto', errores);
+        }
+      });
+    } else {
+      console.warn('No hay producto seleccionado o producto Editado.');
     }
   }
 
