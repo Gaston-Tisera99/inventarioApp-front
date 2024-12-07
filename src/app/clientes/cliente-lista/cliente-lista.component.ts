@@ -18,12 +18,22 @@ export class ClienteListaComponent {
   clienteEditado: Cliente | null = null;
   id:number = 1;
   nuevoCliente: Cliente = {} as Cliente;
-
+  
   constructor(private clienteServicio: ClienteService) {}
 
   ngOnInit() {
     this.obtenerClientes();
   }
+
+  
+  private obtenerClientes() { 
+    this.clienteServicio.obtenerClientesLista().subscribe(
+      datos => {
+        this.clientes = datos;
+      }
+    );
+  }
+  
 
   guardarCliente() {
     this.clienteServicio.agregarCliente(this.nuevoCliente).subscribe({
@@ -33,7 +43,7 @@ export class ClienteListaComponent {
             text: 'Cliente creado con éxito.',
             icon: 'success',
             confirmButtonText: 'OK',
-        }).then(()=>{
+        }).then(() => {
           console.log('Cliente creado', response);
           this.cerrarModalAgregar()
           this.obtenerClientes();
@@ -55,7 +65,7 @@ export class ClienteListaComponent {
         const modal = new (window as any).bootstrap.Modal(modalElement);
         modal.show();
       }
-  }
+  } 
 
   cerrarModalAgregar() {
     const modalElement = document.getElementById("modalCliente");
@@ -70,13 +80,6 @@ export class ClienteListaComponent {
     }
   }
 
-  private obtenerClientes() { 
-    this.clienteServicio.obtenerClientesLista().subscribe(
-      datos => {
-        this.clientes = datos;
-      }
-    );
-  }
 
   openByDocument(cliente: Cliente) {
     if (cliente && cliente.id) {
@@ -91,20 +94,7 @@ export class ClienteListaComponent {
       console.warn('Cliente no válido para abrir el modal');
     }
   }
-  
 
-  closeModelByDocument() {
-    const modalElement = document.getElementById("myModal");
-    if (modalElement) {
-      modalElement.classList.remove('show');
-      modalElement.style.display = 'none';
-      document.body.classList.remove('modal-open');
-      const backdrop = document.querySelector('.modal-backdrop');
-      if (backdrop) {
-        backdrop.remove();
-      }
-    }
-  }
 
   actualizarCliente() {
     if (this.selectedCliente && this.clienteEditado) {
@@ -132,6 +122,19 @@ export class ClienteListaComponent {
       });
     } else {
       console.warn('No hay cliente seleccionado o clienteEditado.');
+    }
+  }
+
+  closeModelByDocument() {
+    const modalElement = document.getElementById("myModal");
+    if (modalElement) {
+      modalElement.classList.remove('show');
+      modalElement.style.display = 'none';
+      document.body.classList.remove('modal-open');
+      const backdrop = document.querySelector('.modal-backdrop');
+      if (backdrop) {
+        backdrop.remove();
+      }
     }
   }
 
@@ -171,9 +174,6 @@ export class ClienteListaComponent {
       }
     });
   }
-  
-  
-  
 }
 
 
