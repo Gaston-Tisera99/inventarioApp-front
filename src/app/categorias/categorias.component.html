@@ -20,7 +20,7 @@
         <th scope="row">{{categoria.id}}</th>
         <td>{{categoria.nombre}}</td>
         <td>{{categoria.descripcion}}</td>
-        <td>{{categoria.datacreated}}</td>
+        <td>{{getFormattedDate(categoria.datacreated)}}</td>
         <td>{{categoria.status}}</td>
         <td class="text-center">
           <button class="btn btn-warning btn-sm me-3" (click)="modalEditar(categoria)">Editar</button>
@@ -50,10 +50,6 @@
         <div class="mb-3">
           <label for="descripcion" class="form-label">Descripcion</label>
           <input type="text" id="descripcion" class="form-control" [(ngModel)]="nuevaCategoria.descripcion">
-        </div>
-        <div class="mb-3">
-          <label for="datacreated" class="form-label">Fecha de Creación</label>
-          <input type="date" id="datacreated" class="form-control" [(ngModel)]="nuevaCategoria.datacreated">
         </div>
         <div class="mb-3">
           <label for="status" class="form-label">Estado</label>

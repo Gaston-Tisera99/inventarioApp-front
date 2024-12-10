@@ -4,12 +4,14 @@ import { Categoria } from '../modelos/categoria';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { DatePipe } from '@angular/common';
 import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-categorias',
   standalone: true,
   imports: [CommonModule, FormsModule, HttpClientModule],
+  providers: [DatePipe],
   templateUrl: './categorias.component.html'
 })
 export class CategoriasComponent {
@@ -18,7 +20,7 @@ export class CategoriasComponent {
   categoriaEditado: Categoria | null = null;
   nuevaCategoria: Categoria = {} as Categoria;
 
-  constructor(private categoriaService: CategoriaService){}
+  constructor(private categoriaService: CategoriaService, private datePipe: DatePipe){}
 
   ngOnInit(){
     this.obtenerCategoria();
@@ -30,6 +32,10 @@ export class CategoriasComponent {
         this.categorias = datos;
       }
     )
+  }
+
+  getFormattedDate(date: Date): string {
+    return this.datePipe.transform(date, 'dd/MM/yyyy')!;
   }
 
  //agregar una nueva categoria

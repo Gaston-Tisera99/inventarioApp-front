@@ -41,6 +41,6 @@ export class ProductoService {
   }
 
   obtenerCategorias(): Observable<Categoria[]> {
-    return this.clienteHttp.get<Categoria[]>('http://localhost:8080/inventario-app/categoria'); // Ajusta la URL según sea necesario
+    return this.clienteHttp.get<Categoria[]>('http://localhost:8080/inventario-app/categorias'); // Ajusta la URL según sea necesario
   }
 }
