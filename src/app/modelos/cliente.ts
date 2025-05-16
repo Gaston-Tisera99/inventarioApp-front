@@ -1,9 +1,9 @@
 export class Cliente {
-    id: number;
+    id: number ;
     nombre: string;
     apellido: string;
-    telefono: number;
-    dni: number;
-    cuit: number;
+    telefono: number | null;
+    dni: number | null;
+    cuit: number | null;
     email: string;
 }

@@ -34,17 +34,21 @@ export class ProductoListaComponent {
   constructor(private productoServicio: ProductoService, private enrutador: Router) { }
 
   ngOnInit() {
-    // Cargamos todos los productos
+    // Cargamos todos los productosobtenerCategorias
     this.obtenerProductos();
     this.obtenerCategorias();
   }
 
   obtenerCategorias() {
     this.productoServicio.obtenerCategorias().subscribe(
-      (datos) => this.categorias = datos,
+      (datos) => {
+        // Filtrar categorías activas
+        this.categorias = datos.filter((categoria) => categoria.status === 1);
+      },
       (error) => console.error('Error al cargar categorías:', error)
     );
   }
+  
 
   private obtenerProductos() {
     this.productoServicio.obtenerProductosLista().subscribe(
@@ -59,15 +63,38 @@ export class ProductoListaComponent {
   }
 
   agregarProducto() {
-    if (!this.nuevoProducto.descripcion || !this.nuevoProducto.precio || !this.nuevoProducto.categoria.id) {
+
+    const camposRequeridos = [
+      { campo: this.nuevoProducto.descripcion, nombre: 'descripción'},
+      {campo: this.nuevoProducto.precio, nombre: 'precio'},
+      {campo: this.nuevoProducto.stock, nombre: 'stock'},
+      {campo: this.nuevoProducto.codigo, nombre: 'codigo'},
+      {campo: this.nuevoProducto.categoria?.id, nombre: 'categoría'}
+    ];
+
+    const campoFaltante = camposRequeridos.find(item => !item.campo);
+
+    if (campoFaltante) {
       Swal.fire({
+        title: '¡Campo incompleto!',
+        text: `Por favor, rellene el campo ${campoFaltante.nombre}.`,
+        icon: 'warning',
+        confirmButtonText: 'Aceptar',
+      });
+      return;
+    }
+
+    console.log('Producto guardado:', this.nuevoProducto);
+
+   /* if (!this.nuevoProducto.descripcion || !this.nuevoProducto.precio || !this.nuevoProducto.categoria.id) {
+      Swal.fire({ 
         title: '¡Error!',
         text: 'Por favor complete todos los campos.',
         icon: 'error',
         confirmButtonText: 'Intentar de nuevo',
       });
-      return; // Prevenir la creación si hay campos vacíos
-    }
+      return; // Prevenir la creación si hay campos vacíos  
+    }*/
 
     const productoConCategoriaId = {
       ...this.nuevoProducto,
@@ -99,6 +126,21 @@ export class ProductoListaComponent {
 
   // Función para abrir el modal de agregar
   modalAgregar() {
+    this.nuevoProducto = {
+      idProducto: 0,
+      categoria: {
+        id: 0,
+        nombre: '',
+        descripcion: '',
+        datacreated: new Date(),
+        status: 1
+      },
+      codigo: '',
+      descripcion: '',
+      precio: null,
+      stock: null
+    };
+
     const modalElement = document.getElementById("modalAgregar");
     if (modalElement) {
       const modal = new (window as any).bootstrap.Modal(modalElement);

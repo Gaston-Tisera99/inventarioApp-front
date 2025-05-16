@@ -21,8 +21,14 @@
         <td>{{categoria.nombre}}</td>
         <td>{{categoria.descripcion}}</td>
         <td>{{getFormattedDate(categoria.datacreated)}}</td>
-        <td>{{categoria.status}}</td>
+        <td>{{ categoria.status === 1 ? 'Activo' : 'Inactivo' }}</td>
         <td class="text-center">
+          <button 
+            class="btn btn-sm me-3" 
+            [ngClass]="categoria.status === 1 ? 'btn-warning' : 'btn-success'" 
+            (click)="toggleStatus(categoria)">
+             {{ categoria.status === 1 ? 'Inhabilitar' : 'Habilitar' }}
+          </button>
           <button class="btn btn-warning btn-sm me-3" (click)="modalEditar(categoria)">Editar</button>
           <button class="btn btn-danger btn-sm" (click)="eliminarCategoria(categoria.id)">Eliminar</button>
         </td>
@@ -51,10 +57,10 @@
           <label for="descripcion" class="form-label">Descripcion</label>
           <input type="text" id="descripcion" class="form-control" [(ngModel)]="nuevaCategoria.descripcion">
         </div>
-        <div class="mb-3">
-          <label for="status" class="form-label">Estado</label>
-          <input type="number" id="status" class="form-control" [(ngModel)]="nuevaCategoria.status">
-        </div>
+        <select id="status" class="form-control" [(ngModel)]="nuevaCategoria.status">
+          <option [value]="1">Activo</option>
+          <option [value]="2">Inactivo</option>
+        </select>
       </div>
       
 
@@ -68,5 +74,40 @@
   </div>
 </div>
 <!-- FIN de  Modal CREAR CATEGORIA -->
+
+<div class="modal" id="modalEditarCategoria">
+  <div class="modal-dialog">  
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Crear Categoria</h4>
+        <button type="button" class="btn-close" (click)="cerrarModalEditar()" aria-label="Close"></button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="modal-body" *ngIf="categoriaEditado">
+        <div class="mb-3">
+          <label for="nombre" class="form-label">Nombre</label>
+          <input type="text" id="nombre" class="form-control" [(ngModel)]="categoriaEditado.nombre">
+        </div>
+        <div class="mb-3">
+          <label for="descripcion" class="form-label">Descripcion</label>
+          <input type="text" id="descripcion" class="form-control" [(ngModel)]="categoriaEditado.descripcion">
+        </div>
+        <select id="status" class="form-control" [(ngModel)]="categoriaEditado.status">
+          <option [value]="1">Activo</option>
+          <option [value]="2">Inactivo</option>
+        </select>
+      </div>
+      
+      <!-- Modal footer -->
+      <div class="modal-footer d-flex text-center justify-content-between">
+        <button type="button" class="btn btn-danger" (click)="cerrarModalEditar()">Cerrar</button>
+        <button type="button" class="btn btn-success" (click)="ActualizarCategoria()">Editar</button>
+      </div>
+
+    </div>
+  </div>
+</div>
 
 

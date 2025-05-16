@@ -36,6 +36,30 @@ export class ClienteListaComponent {
   
 
   guardarCliente() {
+
+    const camposRequeridos = [
+      { campo: this.nuevoCliente.nombre, nombre: 'nombre'},
+      {campo: this.nuevoCliente.apellido, nombre: 'apellido'},
+      {campo: this.nuevoCliente.telefono, nombre: 'telefono'},
+      {campo: this.nuevoCliente.dni, nombre: 'dni'},
+      {campo: this.nuevoCliente.cuit, nombre: 'cuit'},
+      {campo: this.nuevoCliente.email, nombre: 'email'},
+    ];
+
+    const campoFaltante = camposRequeridos.find(item => !item.campo);
+
+    if(campoFaltante){
+      Swal.fire({
+        title: '!Campo Incompleto!',
+        text: `Por favor, rellene el campo ${campoFaltante.nombre}.`,
+        icon: 'warning',
+        confirmButtonText: 'Aceptar',
+      });
+      return;
+    }
+
+    console.log('Producto guardado:', this.nuevoCliente);
+
     this.clienteServicio.agregarCliente(this.nuevoCliente).subscribe({
       next: (response) => {
         Swal.fire({
@@ -60,6 +84,17 @@ export class ClienteListaComponent {
 
   
   modalAgregar(){
+
+    this.nuevoCliente = {
+      id: 0, // si se autogenera puedes dejarlo así
+      nombre: '',
+      apellido: '',
+      telefono: null,
+      dni: null,
+      cuit: null,
+      email: ''
+    };
+
     const modalElement = document.getElementById("modalCliente");
       if (modalElement) {
         const modal = new (window as any).bootstrap.Modal(modalElement);

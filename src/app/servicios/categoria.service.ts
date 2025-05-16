@@ -20,8 +20,16 @@ export class CategoriaService {
       return this.httpClient.post(this.urlBase, categoria);
     }
 
+    actualizarCategoria(id: number, categoria: Categoria): Observable<Object> {
+      return this.httpClient.put(`${this.urlBase}/${id}`, categoria);
+    }
+
     eliminarCategoria(id: number) : Observable<Object>{
       return this.httpClient.delete(`${this.urlBase}/${id}`)
+    }
+    
+    actualizarEstadoCategoria(id: number, status: number): Observable<Categoria> {
+      return this.httpClient.put<Categoria>(`${this.urlBase}/${id}/status`, { status });
     }
     
   
