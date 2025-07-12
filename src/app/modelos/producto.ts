@@ -7,5 +7,6 @@ export class Producto {
     descripcion: string;
     precio: number | null;
     stock: number | null;
+    cantidadTemp?: number;
 }
 
